@@ -6,25 +6,38 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
 import com.vfcode.cursomc.domain.enums.ClientType;
 
-
+@Entity
 public class Client  implements Serializable {
   private static final long serialVersionUID = 1L;
   
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
-  private Integer name;
-  private Integer email;
-  private Integer cpfOrCnpj;
+  private String name;
+  private String email;
+  private String cpfOrCnpj;
   private Integer type;
 
+  @OneToMany(mappedBy = "client")
   private List<Address> addresses = new ArrayList<>();
 
+  @ElementCollection
+  @CollectionTable(name = "PHONE")
   private Set<String> phones = new HashSet<>();
 
   public Client() {}
 
-  public Client(Integer id, Integer name, Integer email, Integer cpfOrCnpj, ClientType type) {
+  public Client(Integer id, String name, String email, String cpfOrCnpj, ClientType type) {
     this.id = id;
     this.name = name;
     this.email = email;
@@ -40,27 +53,27 @@ public class Client  implements Serializable {
     this.id = id;
   }
 
-  public Integer getName() {
+  public String getName() {
     return name;
   }
 
-  public void setName(Integer name) {
+  public void setName(String name) {
     this.name = name;
   }
 
-  public Integer getEmail() {
+  public String getEmail() {
     return email;
   }
 
-  public void setEmail(Integer email) {
+  public void setEmail(String email) {
     this.email = email;
   }
 
-  public Integer getCpfOrCnpj() {
+  public String getCpfOrCnpj() {
     return cpfOrCnpj;
   }
 
-  public void setCpfOrCnpj(Integer cpfOrCnpj) {
+  public void setCpfOrCnpj(String cpfOrCnpj) {
     this.cpfOrCnpj = cpfOrCnpj;
   }
 

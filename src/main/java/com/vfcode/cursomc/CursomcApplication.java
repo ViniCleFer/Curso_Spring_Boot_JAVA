@@ -2,12 +2,17 @@ package com.vfcode.cursomc;
 
 import java.util.Arrays;
 
+import com.vfcode.cursomc.domain.Address;
 import com.vfcode.cursomc.domain.Category;
 import com.vfcode.cursomc.domain.City;
+import com.vfcode.cursomc.domain.Client;
 import com.vfcode.cursomc.domain.Product;
 import com.vfcode.cursomc.domain.State;
+import com.vfcode.cursomc.domain.enums.ClientType;
+import com.vfcode.cursomc.repositories.AddressRepository;
 import com.vfcode.cursomc.repositories.CategoryRepository;
 import com.vfcode.cursomc.repositories.CityRepository;
+import com.vfcode.cursomc.repositories.ClientRepository;
 import com.vfcode.cursomc.repositories.ProductRepository;
 import com.vfcode.cursomc.repositories.StateRepository;
 
@@ -31,6 +36,11 @@ public class CursomcApplication implements CommandLineRunner {
 	@Autowired
 	private StateRepository stateRepository;
 
+	@Autowired
+	private ClientRepository clientRepository;
+
+	@Autowired
+	private AddressRepository addressRepository;
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
 	}
@@ -67,6 +77,19 @@ public class CursomcApplication implements CommandLineRunner {
 
 		stateRepository.saveAll(Arrays.asList(state1, state2));
 		cityRepository.saveAll(Arrays.asList(city1, city2, city3));
+
+		Client client1 = new Client(null, "Alissan Kristine", "alissan.camargo@gmail.com", "42486356827", ClientType.PESSOAFISICA);
+
+		client1.getPhones().addAll(Arrays.asList("11949999708", "11977456642"));
+
+		Address address1 = new Address(null, "R. Estados Unidos", "195", "Apto 14, torre 4", "Guaraú", "13324220", client1, city1);
+		Address address2 = new Address(null, "R. dos Bagres", "542", "Casa", "Salto de São José", "13324277", client1, city2);
+	
+		client1.getAddresses().addAll(Arrays.asList(address1, address2));
+
+		clientRepository.saveAll(Arrays.asList(client1));
+		addressRepository.saveAll(Arrays.asList(address1, address2));
+	
 	}
 
 }
